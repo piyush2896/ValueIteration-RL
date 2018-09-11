@@ -1,0 +1,17 @@
+{
+    "env": {
+        "x_range": [1, 4],
+        "y_range": [1, 3],
+        "pos_rwd_state": [4, 3],
+        "neg_rwd_state": [4, 2],
+        "pos_rwd_val": 1,
+        "neg_rwd_val": -1,
+        "blocked_states": [[2, 2]]
+    },
+    "val_fn": {
+        "noise": 0.8,
+        "gamma": 0.9,
+        "h": 100,
+        "verbose": 10
+    }
+}
