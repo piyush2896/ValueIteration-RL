@@ -9,7 +9,7 @@
         "blocked_states": [[2, 2]]
     },
     "val_fn": {
-        "noise": 0.8,
+        "noise": 0.2,
         "gamma": 0.9,
         "h": 100,
         "verbose": 10

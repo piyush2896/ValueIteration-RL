@@ -13,11 +13,11 @@ def get_max_v_a_pair(world,
             v = n_state
         else:
             lr_states = world.move_lr_given_action(state, action)
-            v_n_state = noise * (world.get_reward(state, action, n_state) +
+            v_n_state = (1. - noise) * (world.get_reward(state, action, n_state) +
                 v_star[n_state] * gamma)
-            v_l_state = ((1. - noise) / 2) * (world.get_reward(state, action, lr_states[0]) +
+            v_l_state = (noise / 2) * (world.get_reward(state, action, lr_states[0]) +
                 v_star[lr_states[0]] * gamma)
-            v_r_state = ((1. - noise) / 2) * (world.get_reward(state, action, lr_states[1]) +
+            v_r_state = (noise / 2) * (world.get_reward(state, action, lr_states[1]) +
                 v_star[lr_states[1]] * gamma)
             v = v_n_state + v_l_state + v_r_state
 
@@ -25,7 +25,7 @@ def get_max_v_a_pair(world,
     return max(v_a_pairs)
 
 def value_iter(world,
-               noise=0.8,
+               noise=0.2,
                gamma=0.99,
                h=100,
                v_star_init=None,
