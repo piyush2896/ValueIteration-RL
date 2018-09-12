@@ -9,17 +9,17 @@ class Grid:
     def __init__(self,
                  x_range=(1, 4),
                  y_range=(1, 3),
-                 pos_reward_state=(4, 3),
-                 neg_reward_state=(4, 2),
-                 pos_reward_val=1.,
-                 neg_reward_val=-1.,
+                 pos_reward_states=[(4, 3)],
+                 neg_reward_states=[(4, 2)],
+                 pos_reward_vals=[1.],
+                 neg_reward_vals=[-1.],
                  blocked_states=[(2, 2)]):
         self.x_range = x_range
         self.y_range = y_range
-        self.pos_reward_state = pos_reward_state
-        self.neg_reward_state = neg_reward_state
-        self.pos_reward_val = pos_reward_val
-        self.neg_reward_val = neg_reward_val
+        self.pos_reward_states = pos_reward_states
+        self.neg_reward_states = neg_reward_states
+        self.pos_reward_vals = dict(zip(pos_reward_states, pos_reward_vals))
+        self.neg_reward_vals = dict(zip(neg_reward_states, neg_reward_vals))
         self.blocked_states = blocked_states
 
         self.define_states()
@@ -77,10 +77,10 @@ class Grid:
 
     def move_given_action(self, state, action):
         if action == Grid.EXIT:
-            if self.pos_reward_state == state:
-                res = self.pos_reward_val
+            if state in self.pos_reward_states:
+                res = self.pos_reward_vals[state]
             else:
-                res = self.neg_reward_val
+                res = self.neg_reward_vals[state]
             return True, res
 
         if action == Grid.NORTH:
@@ -105,7 +105,7 @@ class Grid:
 
     def actions_available(self, state):
         assert state in self.states
-        if state == self.pos_reward_state or state == self.neg_reward_state:
+        if state in self.pos_reward_states or state in self.neg_reward_states:
             return [Grid.EXIT]
         else:
             return [Grid.NORTH,
@@ -114,7 +114,7 @@ class Grid:
                     Grid.WEST]
 
     def possible_states(self, state):
-        if state == self.pos_reward_state or state == self.neg_reward_state:
+        if state in self.pos_reward_states or state in self.neg_reward_states:
             return []
         else:
             return [
@@ -136,10 +136,10 @@ class Grid:
             for x in range(self.x_range[0], self.x_range[1]+1):
                 if (x, y) == cur_state:
                     print('|{:^5s}|'.format('r'), end='')
-                elif (x, y) == self.pos_reward_state:
-                    print('|{:^5s}|'.format('+1'), end='')
-                elif (x, y) == self.neg_reward_state:
-                    print('|{:^5s}|'.format('-1'), end='')
+                elif (x, y) in self.pos_reward_states:
+                    print('|{:^5s}|'.format(str(self.pos_reward_vals[(x, y)])), end='')
+                elif (x, y) in self.neg_reward_states:
+                    print('|{:^5s}|'.format(str(self.neg_reward_vals[(x, y)])), end='')
                 elif (x, y) in self.states:
                     print('|{:^5s}|'.format('a'), end='')
                 else:
@@ -158,7 +158,7 @@ class Grid:
                 if (x, y) in self.blocked_states:
                     print('|{:^5s}|'.format('na'), end='')
                 else:
-                    print('|{:.3f}|'.format(v_star[((x, y))]), end='')
+                    print('|{:^5s}|'.format('{:.2f}'.format(v_star[((x, y))])), end='')
             print()
 
     def display_world_pi_vals(self, pi_star):
@@ -172,10 +172,10 @@ class Grid:
             for x in range(self.x_range[0], self.x_range[1]+1):
                 if (x, y) in self.blocked_states:
                     print('|{:^5s}|'.format('na'), end='')
-                elif (x, y) == self.pos_reward_state:
-                    print('|{:^5s}|'.format('+1'), end='')
-                elif (x, y) == self.neg_reward_state:
-                    print('|{:^5s}|'.format('-1'), end='')
+                elif (x, y) in self.pos_reward_states:
+                    print('|{:^5s}|'.format(str(self.pos_reward_vals[(x, y)])), end='')
+                elif (x, y) in self.neg_reward_states:
+                    print('|{:^5s}|'.format(str(self.neg_reward_vals[(x, y)])), end='')
                 else:
                     if pi_star[(x, y)] == Grid.NORTH:
                         print('|{:^5s}|'.format('^'), end='')

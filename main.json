@@ -2,10 +2,10 @@
     "env": {
         "x_range": [1, 4],
         "y_range": [1, 3],
-        "pos_rwd_state": [4, 3],
-        "neg_rwd_state": [4, 2],
-        "pos_rwd_val": 1,
-        "neg_rwd_val": -1,
+        "pos_rwd_state": [[4, 3]],
+        "neg_rwd_states": [[4, 2]],
+        "pos_rwd_vals": [1],
+        "neg_rwd_vals": [-1],
         "blocked_states": [[2, 2]]
     },
     "val_fn": {

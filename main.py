@@ -13,10 +13,10 @@ def run(json_path):
     world = Grid(
         x_range=world_cfgs['x_range'],
         y_range=world_cfgs['y_range'],
-        pos_reward_state=tuple(world_cfgs['pos_rwd_state']),
-        neg_reward_state=tuple(world_cfgs['neg_rwd_state']),
-        pos_reward_val=world_cfgs['pos_rwd_val'],
-        neg_reward_val=world_cfgs['neg_rwd_val'],
+        pos_reward_states=li_to_tu(world_cfgs['pos_rwd_state']),
+        neg_reward_states=li_to_tu(world_cfgs['neg_rwd_states']),
+        pos_reward_vals=world_cfgs['pos_rwd_vals'],
+        neg_reward_vals=world_cfgs['neg_rwd_vals'],
         blocked_states=li_to_tu(world_cfgs['blocked_states'])
     )
     v, p = value_iter(

@@ -35,8 +35,10 @@ def value_iter(world,
     else:
         v_star = defaultdict(lambda: 0.)
     pi_star = {}
-    pi_star[world.pos_reward_state] = world.EXIT
-    pi_star[world.neg_reward_state] = world.EXIT
+    for state in world.pos_reward_states:
+        pi_star[state] = world.EXIT
+    for state in world.neg_reward_states:
+        pi_star[state] = world.EXIT
 
     for k in range(1, h+1):
         for state in world.states:
